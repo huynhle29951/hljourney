@@ -3,541 +3,389 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HL — Knowledge & Decision Systems</title>
+<title>HL · Journey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,300;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream:    #f2f7ee;
-  --stone:    #e5eedf;
-  --border:   #c8dbbf;
-  --ink:      #1a2618;
-  --ink-mid:  #4a6644;
-  --ink-soft: #89a882;
+  --bg:       #f0f5eb;
+  --bg2:      #e7eedf;
+  --line:     #c9d9bf;
+  --ink:      #192618;
+  --mid:      #4a6243;
+  --soft:     #8aaa83;
+  --faint:    #b8ccb2;
   --serif: 'Cormorant Garamond', serif;
-  --mono:  'Space Mono', monospace;
+  --mono:  'DM Mono', monospace;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--cream);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--mono);
-  font-size: 0.78rem;
-  line-height: 1.8;
-  overflow-x: hidden;
+  font-size: 0.8rem;
+  line-height: 1.75;
   -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
 
-body::before {
+/* grain overlay */
+body::after {
   content: '';
   position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 9999;
 }
 
+/* progress line */
 #bar {
   position: fixed; top: 0; left: 0;
-  height: 0.5px; width: 0%;
-  background: var(--ink-soft);
-  z-index: 1000; transition: width 0.1s linear;
+  height: 1px; width: 0%;
+  background: var(--soft); z-index: 1000;
+  transition: width 0.08s linear;
 }
 
-/* NAV */
+/* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0;
-  padding: 1.5rem 3rem;
+  padding: 1.2rem 1.5rem;
   display: flex; justify-content: space-between; align-items: center;
-  background: rgba(242,247,238,0.92);
-  backdrop-filter: blur(18px);
-  border-bottom: 0.5px solid var(--border);
+  background: rgba(240,245,235,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
   z-index: 100;
 }
 .nav-brand {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.05rem; color: var(--ink); letter-spacing: 0.02em;
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--ink); letter-spacing: 0.01em;
 }
-.nav-brand span { font-weight: 300; color: var(--ink-mid); }
-.nav-links { display: flex; gap: 2.5rem; align-items: center; }
-.nav-link {
-  font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink-soft); text-decoration: none; transition: color 0.2s;
+.nav-brand em { font-weight: 300; color: var(--mid); }
+.nav-right {
+  display: flex; align-items: center; gap: 1.5rem;
 }
-.nav-link:hover { color: var(--ink); }
-.nav-cta {
-  font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--ink); text-decoration: none;
-  padding: 0.6rem 1.4rem; border: 0.5px solid var(--border);
-  transition: border-color 0.25s, background 0.25s;
+.nav-tag {
+  font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--soft);
 }
-.nav-cta:hover { border-color: var(--ink-mid); background: rgba(26,22,20,0.03); }
+.nav-vision {
+  font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--mid); text-decoration: none;
+  padding: 0.45rem 1rem; border: 1px solid var(--line);
+  transition: border-color 0.2s, color 0.2s;
+}
+.nav-vision:hover { border-color: var(--mid); color: var(--ink); }
 
-/* LAYOUT */
-.wrap { max-width: 780px; margin: 0 auto; padding: 0 3rem; }
-section { padding: 9rem 0; }
+/* ── WRAP ── */
+.w { max-width: 640px; margin: 0 auto; padding: 0 1.5rem; }
 
-.sec-tag {
-  font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 3.5rem;
-  display: flex; align-items: center; gap: 1rem;
+/* ── SECTION BASE ── */
+section { padding: 7rem 0; }
+section + section { border-top: 1px solid var(--line); }
+
+.s-tag {
+  font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 3rem;
+  display: flex; align-items: center; gap: 0.8rem;
 }
-.sec-tag::after { content: ''; width: 28px; height: 0.5px; background: var(--border); }
+.s-tag::before { content: ''; width: 20px; height: 1px; background: var(--line); }
 
-.section-h2 {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: clamp(1.9rem, 4.5vw, 3.1rem);
-  line-height: 1.15; color: var(--ink); margin-bottom: 5rem;
-}
+/* ── REVEAL ── */
+.r { opacity: 0; transform: translateY(14px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.r.in { opacity: 1; transform: none; }
 
-/* HERO */
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
 #hero {
   min-height: 100svh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding-top: 10rem; padding-bottom: 8rem;
-}
-.hero-label {
-  font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 3rem;
-  opacity: 0; animation: rise 1s 0.2s forwards;
-}
-h1 {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
-  line-height: 1.1; letter-spacing: -0.01em;
-  color: var(--ink); max-width: 660px; margin-bottom: 3.5rem;
-  opacity: 0; animation: rise 1.1s 0.4s forwards;
-}
-h1 em { font-weight: 300; color: var(--ink-mid); font-style: italic; }
-.hero-divider {
-  display: flex; align-items: flex-start; gap: 2rem;
-  margin-bottom: 3.5rem;
-  opacity: 0; animation: rise 1s 0.65s forwards;
-}
-.hero-divider::before {
-  content: ''; width: 1px; height: 56px;
-  background: var(--border); flex-shrink: 0; margin-top: 0.2rem;
-}
-.hero-sub { font-size: 0.73rem; line-height: 1.9; color: var(--ink-mid); max-width: 400px; }
-.hero-cta-row {
-  display: flex; align-items: center; gap: 2.5rem;
-  opacity: 0; animation: rise 1s 0.9s forwards;
-}
-.btn-primary {
-  display: inline-flex; align-items: center;
-  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--cream); text-decoration: none;
-  padding: 1rem 2rem; background: var(--ink);
-  border: 0.5px solid var(--ink); transition: background 0.25s;
-}
-.btn-primary:hover { background: #1e3a1a; }
-.hero-note { font-size: 0.56rem; letter-spacing: 0.12em; color: var(--ink-soft); }
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-top: 8rem; padding-bottom: 5rem;
 }
 
-/* PROBLEM */
-#problem {
-  background: var(--stone);
-  border-top: 0.5px solid var(--border);
-  border-bottom: 0.5px solid var(--border);
-}
-.problem-intro {
-  font-size: 0.82rem; line-height: 2; color: var(--ink-mid);
-  max-width: 560px; margin-bottom: 5rem;
-}
-.problem-intro strong {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.05rem; color: var(--ink); display: block;
-  margin-top: 0.4rem;
-}
-.problem-list { display: flex; flex-direction: column; }
-.prob-item {
-  display: grid; grid-template-columns: 5.5rem 1fr;
-  gap: 2.5rem; padding: 3rem 0;
-  border-top: 0.5px solid var(--border); transition: all 0.3s;
-}
-.prob-item:last-child { border-bottom: 0.5px solid var(--border); }
-.prob-num {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 3rem; line-height: 1; color: var(--border);
-  padding-top: 0.4rem; transition: color 0.3s;
-}
-.prob-item:hover .prob-num { color: var(--ink-soft); }
-.prob-symptom {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.3rem; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.2;
-}
-.prob-root {
-  font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 0.9rem;
-}
-.prob-body { font-size: 0.72rem; line-height: 1.9; color: var(--ink-mid); }
-
-/* WHAT I DO */
-#what { background: var(--cream); }
-.what-intro {
-  font-size: 0.78rem; line-height: 2; color: var(--ink-mid);
-  max-width: 540px; margin-bottom: 6rem;
-  border-left: 0.5px solid var(--border); padding-left: 1.5rem;
-}
-.services {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0.5px; background: var(--border); margin-bottom: 6rem;
-}
-.svc-card { background: var(--cream); padding: 2.8rem 2rem; transition: background 0.3s; }
-.svc-card:hover { background: var(--stone); }
-.svc-num {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 1.8rem; color: var(--border); line-height: 1;
-  margin-bottom: 1.8rem; display: block;
-}
-.svc-name {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.15rem; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.25;
-}
-.svc-when {
-  font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 1.8rem; display: block;
-}
-.svc-items { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.svc-items li {
-  font-size: 0.64rem; line-height: 1.65; color: var(--ink-mid);
-  display: flex; gap: 0.8rem; align-items: baseline;
-}
-.svc-items li::before { content: '·'; color: var(--border); flex-shrink: 0; }
-
-/* OUTCOMES strip */
-.outcomes-strip {
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 0.5px; background: var(--border); border: 0.5px solid var(--border);
-}
-.out-item {
-  background: var(--stone); padding: 1.8rem 2rem;
-  display: flex; gap: 1rem; align-items: baseline;
-}
-.out-mark {
-  font-family: var(--serif); font-style: italic;
-  color: var(--ink-soft); font-size: 1rem; flex-shrink: 0;
-}
-.out-text { font-size: 0.7rem; line-height: 1.75; color: var(--ink-mid); }
-
-/* HOW I WORK */
-#how {
-  background: var(--stone);
-  border-top: 0.5px solid var(--border);
-  border-bottom: 0.5px solid var(--border);
-}
-.how-contrast {
-  display: grid; grid-template-columns: 1fr 0.5px 1fr;
-  border: 0.5px solid var(--border); margin-bottom: 7rem;
-}
-.how-col { padding: 3rem 2.5rem; }
-.how-col-left { background: var(--stone); }
-.how-col-right { background: var(--cream); }
-.how-divider-v { background: var(--border); }
-.how-col-label {
-  font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 2rem;
-}
-.how-row {
-  display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.7rem;
-  padding: 1rem 0; border-bottom: 0.5px solid var(--border);
-}
-.how-row:first-of-type { border-top: 0.5px solid var(--border); }
-.how-symptom {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 0.95rem; color: var(--ink-mid);
-}
-.how-arrow { font-size: 0.6rem; color: var(--border); }
-.how-fix { font-size: 0.64rem; letter-spacing: 0.06em; color: var(--ink-soft); }
-.how-col-note {
-  margin-top: 1.8rem; font-size: 0.6rem; letter-spacing: 0.06em;
-  color: var(--ink-soft); font-style: italic; line-height: 1.75;
-}
-.how-step {
-  padding: 1rem 0; border-bottom: 0.5px solid var(--border);
-}
-.how-step:first-of-type { border-top: 0.5px solid var(--border); }
-.how-step-label {
-  font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 0.4rem;
-}
-.how-step-text { font-size: 0.72rem; line-height: 1.85; color: var(--ink-mid); }
-.how-col-note-dark { color: var(--ink-mid); }
-
-/* PROCESS steps */
-.process-steps { display: flex; flex-direction: column; }
-.step {
-  display: grid; grid-template-columns: 5.5rem 1fr;
-  gap: 2.5rem; padding: 2.8rem 0;
-  border-top: 0.5px solid var(--border);
-}
-.step:last-child { border-bottom: 0.5px solid var(--border); }
-.step-num {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 2.5rem; color: var(--border); line-height: 1; padding-top: 0.3rem;
-}
-.step-label {
-  font-size: 0.52rem; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 0.7rem;
-}
-.step-title {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.25rem; color: var(--ink); margin-bottom: 0.8rem; line-height: 1.2;
-}
-.step-body { font-size: 0.72rem; line-height: 1.9; color: var(--ink-mid); }
-
-/* CASES */
-#cases {
-  background: var(--cream);
-  border-top: 0.5px solid var(--border);
-}
-.cases-list { display: flex; flex-direction: column; }
-.case-item { padding: 4rem 0; border-top: 0.5px solid var(--border); }
-.case-item:last-child { border-bottom: 0.5px solid var(--border); }
-.case-head {
-  display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2.5rem;
-}
-.case-num {
+.hero-kicker {
   font-size: 0.52rem; letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--soft); margin-bottom: 2.5rem;
+  opacity: 0; animation: up 1s 0.2s forwards;
 }
-.case-tag {
-  font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink); background: var(--border); padding: 0.3rem 0.8rem;
-}
-.case-body { display: grid; grid-template-columns: 1fr auto; gap: 4rem; align-items: start; }
-.case-col { display: flex; flex-direction: column; }
-.case-row {
-  display: grid; grid-template-columns: 8rem 1fr;
-  gap: 2rem; padding: 1.4rem 0; border-bottom: 0.5px solid var(--border);
-}
-.case-row:first-child { border-top: 0.5px solid var(--border); }
-.case-row-label {
-  font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--ink-soft); padding-top: 0.15rem; line-height: 1.6;
-}
-.case-row-val { font-size: 0.72rem; line-height: 1.85; color: var(--ink-mid); }
-.case-surface {
-  color: var(--ink-soft);
-  text-decoration: line-through; text-decoration-color: var(--border);
-}
-.case-result {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0.8rem; min-width: 160px; max-width: 180px;
-  padding: 2.5rem 1.5rem;
-  background: var(--stone); border: 0.5px solid var(--border); text-align: center;
-}
-.case-result-num {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.9rem; line-height: 1; color: var(--ink); display: block;
-}
-.case-result-text { font-size: 0.6rem; line-height: 1.75; color: var(--ink-soft); letter-spacing: 0.04em; }
 
-/* BELIEF — dark section */
-#belief { background: var(--ink); }
-#belief .sec-tag { color: rgba(255,255,255,0.28); }
-#belief .sec-tag::after { background: rgba(255,255,255,0.1); }
-#belief .section-h2 { color: rgba(255,255,255,0.88); margin-bottom: 2rem; }
-.belief-intro {
-  font-size: 0.73rem; line-height: 2; color: rgba(255,255,255,0.42);
-  max-width: 460px; margin-bottom: 5rem;
+h1 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(2rem, 7vw, 3.6rem);
+  font-weight: 600; line-height: 1.12;
+  color: var(--ink); max-width: 520px;
+  margin-bottom: 3rem;
+  opacity: 0; animation: up 1.1s 0.4s forwards;
 }
-.belief-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5px; background: rgba(255,255,255,0.06);
-  border: 0.5px solid rgba(255,255,255,0.06);
+h1 em { font-weight: 300; color: var(--mid); }
+
+.hero-body {
+  font-size: 0.78rem; line-height: 2; color: var(--mid);
+  max-width: 440px; margin-bottom: 4rem;
+  border-left: 1px solid var(--line); padding-left: 1.2rem;
+  opacity: 0; animation: up 1s 0.65s forwards;
 }
-.belief-item { background: var(--ink); padding: 3rem 2.5rem; transition: background 0.3s; }
-.belief-item:hover { background: #111f10; }
-.belief-mark {
+
+.hero-scroll {
   font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase;
-  color: rgba(255,255,255,0.22); margin-bottom: 1.5rem;
+  color: var(--faint);
+  opacity: 0; animation: up 1s 1s forwards;
+  display: flex; align-items: center; gap: 0.8rem;
 }
-.belief-quote {
+.hero-scroll::after { content: ''; width: 32px; height: 1px; background: var(--faint); }
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════
+   RESEARCH
+══════════════════════════════ */
+#research { background: var(--bg); }
+
+.research-intro {
   font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 1.2rem; line-height: 1.5; color: rgba(255,255,255,0.8);
-  margin-bottom: 1rem;
+  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  line-height: 1.5; color: var(--mid); margin-bottom: 4rem;
 }
-.belief-note { font-size: 0.65rem; line-height: 1.8; color: rgba(255,255,255,0.35); }
+.research-intro strong { font-weight: 600; color: var(--ink); font-style: italic; }
 
-/* CAL */
-#cal { background: var(--cream); }
-#cal .section-h2 { margin-bottom: 1rem; }
-.cal-note {
-  font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-soft);
-  margin-bottom: 5rem; max-width: 420px; line-height: 1.85;
-}
-.q-block { margin-bottom: 4rem; }
-.q-num {
-  font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 1.2rem;
-}
-.q-text {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 1.25rem; line-height: 1.4; color: var(--ink); margin-bottom: 2rem;
-}
-.opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.opt {
-  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em;
-  padding: 0.75rem 1.4rem; border: 0.5px solid var(--border);
-  background: var(--cream); color: var(--ink-mid);
-  cursor: pointer; transition: all 0.22s ease;
-}
-.opt:hover { border-color: var(--ink-soft); color: var(--ink); }
-.opt.on {
-  background: var(--ink); color: var(--cream);
-  border-color: var(--ink); box-shadow: 0 4px 20px rgba(26,22,20,0.15);
-}
-.input-row {
+.domains {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5px; margin-top: 3rem; margin-bottom: 0.5px;
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); margin-bottom: 4rem;
 }
-input, textarea {
-  width: 100%; background: var(--stone); border: 0.5px solid var(--border);
-  color: var(--ink); font-family: var(--mono); font-size: 0.72rem;
-  padding: 1rem 1.2rem; outline: none;
-  transition: border-color 0.2s, background 0.2s; letter-spacing: 0.04em;
+.domain {
+  background: var(--bg); padding: 2rem 1.5rem;
+  transition: background 0.25s;
 }
-input::placeholder, textarea::placeholder { color: var(--ink-soft); }
-input:focus, textarea:focus { border-color: var(--ink-soft); background: var(--cream); }
-textarea { resize: none; display: block; }
-.btn-submit {
-  margin-top: 3rem; width: 100%;
-  background: var(--ink); color: var(--cream);
-  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
-  padding: 1.3rem; border: none; cursor: pointer; transition: background 0.25s;
-  display: flex; align-items: center; justify-content: center;
-}
-.btn-submit:hover { background: #1e3a1a; }
-.form-note {
-  margin-top: 1.2rem; font-size: 0.52rem; letter-spacing: 0.12em;
-  color: var(--ink-soft); text-align: center;
-}
-#success { display: none; padding: 5rem 0; text-align: center; }
-#success h3 {
+.domain:hover { background: var(--bg2); }
+.domain-name {
   font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 2rem; color: var(--ink); margin-bottom: 1rem;
+  font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem;
 }
-#success p { font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-soft); line-height: 1.9; }
+.domain-desc { font-size: 0.65rem; line-height: 1.8; color: var(--mid); }
 
-/* FOOTER */
-footer { border-top: 0.5px solid var(--border); padding: 2.5rem 0; }
-.footer-inner {
+.research-note {
+  font-size: 0.65rem; line-height: 1.9; color: var(--soft);
+  padding-left: 1.2rem; border-left: 1px solid var(--line);
+  max-width: 380px;
+}
+
+/* ══════════════════════════════
+   METHOD
+══════════════════════════════ */
+#method { background: var(--bg2); }
+
+.method-lede {
+  font-size: 0.78rem; line-height: 2; color: var(--mid);
+  max-width: 460px; margin-bottom: 4rem;
+}
+
+.pipeline {
+  display: flex; flex-direction: column;
+  gap: 0; margin-bottom: 4rem;
+}
+.pipe-step {
+  display: grid; grid-template-columns: 5rem 1fr;
+  gap: 1.5rem; padding: 2rem 0;
+  border-top: 1px solid var(--line);
+}
+.pipe-step:last-child { border-bottom: 1px solid var(--line); }
+.pipe-label {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: 1.6rem; color: var(--faint); line-height: 1; padding-top: 0.2rem;
+}
+.pipe-title {
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 1rem; color: var(--ink); margin-bottom: 0.4rem;
+}
+.pipe-body { font-size: 0.65rem; line-height: 1.85; color: var(--mid); }
+
+.method-principle {
+  background: var(--ink); color: rgba(255,255,255,0.82);
+  padding: 2.5rem; font-size: 0.72rem; line-height: 2;
+}
+.method-principle em {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: 1.3rem; color: rgba(255,255,255,0.6); display: block;
+  margin-bottom: 1rem; line-height: 1.4;
+}
+
+/* ══════════════════════════════
+   PATTERNS
+══════════════════════════════ */
+#patterns { background: var(--bg); }
+
+.patterns-intro {
+  font-size: 0.72rem; line-height: 2; color: var(--mid);
+  max-width: 440px; margin-bottom: 4rem;
+}
+
+.pattern-list { display: flex; flex-direction: column; }
+
+.pattern-item {
+  padding: 2.5rem 0; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: start;
+  transition: background 0.2s; cursor: default;
+}
+.pattern-item:last-child { border-bottom: 1px solid var(--line); }
+
+.pattern-left {}
+.pattern-name {
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 1.2rem; color: var(--ink); margin-bottom: 0.8rem; line-height: 1.2;
+}
+.pattern-symptom-label {
+  font-size: 0.48rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 0.4rem;
+}
+.pattern-symptom {
+  font-size: 0.68rem; line-height: 1.8; color: var(--mid);
+  margin-bottom: 1.2rem;
+}
+.pattern-q-label {
+  font-size: 0.48rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--soft); margin-bottom: 0.4rem;
+}
+.pattern-q {
+  font-size: 0.68rem; line-height: 1.8; color: var(--ink);
+  font-style: italic; font-family: var(--serif); font-weight: 300;
+}
+.pattern-status {
+  font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--faint); white-space: nowrap; padding-top: 0.3rem;
+  writing-mode: vertical-rl; text-orientation: mixed;
+}
+
+/* ══════════════════════════════
+   BUILDING
+══════════════════════════════ */
+#building { background: var(--bg2); }
+
+.building-lede {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: clamp(1.2rem, 3vw, 1.7rem); line-height: 1.55;
+  color: var(--mid); margin-bottom: 4rem; max-width: 480px;
+}
+.building-lede strong { font-weight: 600; color: var(--ink); font-style: italic; }
+
+.stack {
+  display: flex; flex-direction: column;
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); margin-bottom: 4rem;
+}
+.stack-item {
+  background: var(--bg2); padding: 1.5rem;
+  display: flex; align-items: baseline; gap: 1.2rem;
+}
+.stack-arrow {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: 1rem; color: var(--faint); flex-shrink: 0;
+}
+.stack-label { font-size: 0.68rem; line-height: 1.75; color: var(--mid); }
+.stack-label strong { color: var(--ink); font-weight: 400; font-style: normal; }
+
+.building-note {
+  font-size: 0.65rem; line-height: 1.9; color: var(--soft);
+  border-left: 1px solid var(--line); padding-left: 1.2rem;
+}
+
+/* ══════════════════════════════
+   CONTACT
+══════════════════════════════ */
+#contact { background: var(--bg); padding-bottom: 10rem; }
+
+.contact-h2 {
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.2;
+  color: var(--ink); margin-bottom: 2rem;
+}
+.contact-sub {
+  font-size: 0.72rem; line-height: 2; color: var(--mid);
+  max-width: 420px; margin-bottom: 4rem;
+}
+
+.who-list {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 4rem;
+}
+.who-tag {
+  font-size: 0.58rem; letter-spacing: 0.12em;
+  padding: 0.5rem 1rem; border: 1px solid var(--line);
+  color: var(--mid); background: var(--bg2);
+}
+
+.contact-links {
+  display: flex; flex-direction: column; gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+  max-width: 320px;
+}
+.contact-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 1.5rem; background: var(--bg);
+  text-decoration: none; color: var(--ink);
+  transition: background 0.2s;
+}
+.contact-link:hover { background: var(--bg2); }
+.contact-link-name { font-size: 0.7rem; color: var(--ink); }
+.contact-link-handle { font-size: 0.62rem; color: var(--soft); }
+.contact-link-arr { font-size: 0.65rem; color: var(--faint); }
+
+.vision-cta {
+  margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--line);
+}
+.vision-cta-label {
+  font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 1rem;
+}
+.vision-cta-link {
+  font-family: var(--serif); font-style: italic; font-weight: 300;
+  font-size: 1.2rem; color: var(--mid); text-decoration: none;
+  display: flex; align-items: center; gap: 1rem;
+  transition: color 0.2s;
+}
+.vision-cta-link:hover { color: var(--ink); }
+.vision-cta-link::after { content: '→'; font-style: normal; font-family: var(--mono); font-size: 0.7rem; }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line); padding: 2rem 1.5rem;
   display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 0.5rem;
-  font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft);
+  flex-wrap: wrap; gap: 0.8rem;
 }
-.footer-center {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 0.85rem; letter-spacing: 0.04em; text-transform: none; color: var(--ink-soft);
-}
+.f-left { font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--faint); }
+.f-right { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 0.85rem; color: var(--faint); }
 
-/* ABOUT / JOURNEY */
-#about {
-  background: var(--cream);
-  border-bottom: 0.5px solid var(--border);
-}
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 5rem; align-items: start;
-}
-.about-left {}
-.about-tagline {
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: 1.4rem; line-height: 1.55; color: var(--ink-mid);
-  margin-bottom: 2.5rem; border-left: 0.5px solid var(--border); padding-left: 1.5rem;
-}
-.about-body { font-size: 0.72rem; line-height: 2; color: var(--ink-mid); }
-.about-body p { margin-bottom: 1.2rem; }
-.about-body p:last-child { margin-bottom: 0; }
-.about-right {}
-.about-facts { display: flex; flex-direction: column; }
-.about-fact {
-  padding: 1.4rem 0; border-bottom: 0.5px solid var(--border);
-  display: grid; grid-template-columns: 7rem 1fr; gap: 1.5rem;
-}
-.about-fact:first-child { border-top: 0.5px solid var(--border); }
-.about-fact-label {
-  font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ink-soft); padding-top: 0.15rem;
-}
-.about-fact-val { font-size: 0.7rem; line-height: 1.85; color: var(--ink-mid); }
-.about-honest {
-  margin-top: 3rem; padding: 2rem;
-  background: var(--stone); border: 0.5px solid var(--border);
-  font-size: 0.68rem; line-height: 1.9; color: var(--ink-mid);
-  font-style: italic;
-}
-.about-honest strong {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: 0.9rem; color: var(--ink); display: block; margin-bottom: 0.6rem;
-}
-
-@media (max-width: 700px) {
-  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-}
-
-/* REVEAL */
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.85s ease, transform 0.85s ease; }
-.reveal.in { opacity: 1; transform: none; }
-
-/* TABLET */
-@media (min-width: 701px) and (max-width: 1024px) {
-  .wrap { padding: 0 2rem; }
-  .case-body { gap: 2rem; }
-  .case-result { min-width: 130px; }
-  .case-row { grid-template-columns: 7rem 1fr; }
-}
-
-/* MOBILE */
-@media (max-width: 700px) {
-  .wrap { padding: 0 1.25rem; }
+/* ══════════════════════════════
+   MOBILE
+══════════════════════════════ */
+@media (max-width: 600px) {
+  .w { padding: 0 1.2rem; }
   section { padding: 5rem 0; }
-  nav { padding: 1rem 1.25rem; }
-  .nav-links { gap: 0.8rem; }
-  .nav-link { display: none; }
-  .nav-cta { padding: 0.5rem 1rem; }
+  nav { padding: 1rem 1.2rem; }
+  .nav-tag { display: none; }
+  .nav-vision { padding: 0.4rem 0.8rem; }
 
-  #hero { padding-top: 7rem; padding-bottom: 5rem; min-height: auto; }
-  h1 { font-size: clamp(1.75rem, 7.5vw, 2.4rem); margin-bottom: 2.5rem; }
-  .hero-divider { gap: 1.2rem; }
-  .hero-divider::before { height: 40px; }
-  .hero-sub { font-size: 0.7rem; }
-  .hero-cta-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  h1 { font-size: clamp(1.75rem, 8vw, 2.2rem); }
+  #hero { padding-top: 7rem; }
 
-  .prob-item { grid-template-columns: 3rem 1fr; gap: 1.2rem; padding: 2rem 0; }
-  .prob-num { font-size: 1.8rem; }
+  .domains { grid-template-columns: 1fr; }
+  .pipe-step { grid-template-columns: 3.5rem 1fr; gap: 1rem; }
+  .pipe-label { font-size: 1.2rem; }
 
-  .services { grid-template-columns: 1fr; }
-  .outcomes-strip { grid-template-columns: 1fr; }
+  .pattern-item { grid-template-columns: 1fr; }
+  .pattern-status { writing-mode: horizontal-tb; }
 
-  .how-contrast { grid-template-columns: 1fr; }
-  .how-divider-v { display: none; }
-  .how-col { padding: 2rem 1.5rem; }
-  .how-col-right { border-top: 0.5px solid var(--border); }
-
-  .step { grid-template-columns: 3rem 1fr; gap: 1.2rem; padding: 2rem 0; }
-  .step-num { font-size: 1.8rem; }
-
-  .case-body { grid-template-columns: 1fr; gap: 2rem; }
-  .case-result { max-width: 100%; flex-direction: row; text-align: left; gap: 1.2rem; align-items: center; }
-  .case-result-num { font-size: 1.5rem; }
-  .case-row { grid-template-columns: 5.5rem 1fr; gap: 1rem; }
-
-  .belief-grid { grid-template-columns: 1fr; }
-  .belief-item { padding: 2rem 1.5rem; }
-
-  .input-row { grid-template-columns: 1fr; }
-  .q-block { margin-bottom: 3rem; }
-
-  .footer-inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
-  .footer-center { display: none; }
+  .contact-links { max-width: 100%; }
+  footer { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -546,439 +394,268 @@ footer { border-top: 0.5px solid var(--border); padding: 2.5rem 0; }
 <div id="bar"></div>
 
 <nav>
-  <span class="nav-brand">HL <span>· Knowledge & Decision</span></span>
-  <div class="nav-links">
-    <a href="#about" class="nav-link">Hành trình</a>
-    <a href="#how" class="nav-link">Cách làm việc</a>
-    <a href="#cases" class="nav-link">Case Study</a>
-    <a href="#cal" class="nav-cta">Đặt lịch trao đổi →</a>
+  <span class="nav-brand">HL <em>· Journey</em></span>
+  <div class="nav-right">
+    <span class="nav-tag">hljourney</span>
+    <a href="https://huynhle29951.github.io/hlkarchitect/" class="nav-vision" target="_blank">Tầm nhìn →</a>
   </div>
 </nav>
 
+<!-- ══ HERO ══ -->
 <section id="hero">
-<div class="wrap">
-  <p class="hero-label">Founder · Startup đang scale · Đội ngũ Forward-Deployed</p>
+<div class="w">
+  <p class="hero-kicker">Quan sát · Pattern · Cấu trúc · Hệ thống</p>
 
   <h1>
-    Khi doanh nghiệp lớn lên,<br>
-    thông tin nhiều hơn<br>
-    <em>nhưng AI vẫn thiếu Context.</em>
+    Không phải mọi vấn đề<br>
+    đều cần thêm người,<br>
+    thêm công cụ <em>hay thêm AI.</em>
   </h1>
 
-  <div class="hero-divider">
-    <p class="hero-sub">
-      Tri thức phân tán khiến quyết định chậm. AI có nhiều nhưng chỉ dùng để viết mail vặt vì nền tảng bên dưới quá hỗn loạn.<br><br>
-      Tôi thiết kế hạ tầng tri thức và logic quyết định (Cột I & II) — biến dữ liệu thô thành một hệ điều hành rõ ràng, sẵn sàng mở cổng để các đội ngũ triển khai AI (Cột III) vào việc ngay lập tức.
-    </p>
+  <div class="hero-body">
+    Nhiều vấn đề được tạo ra bởi chính cấu trúc đang vận hành phía bên dưới.<br><br>
+    Tôi dành phần lớn thời gian để quan sát các hệ thống khác nhau, tìm những pattern lặp lại, rồi truy ngược về cơ chế sinh ra chúng.<br><br>
+    Đây là hành trình đó.
   </div>
 
-  <div class="hero-cta-row">
-    <a href="#cal" class="btn-primary">Bắt đầu bằng một cuộc trò chuyện &nbsp;→</a>
-    <span class="hero-note">Dành cho Founder & các Đội ngũ Triển khai AI cần chuẩn hóa Context.</span>
-  </div>
+  <span class="hero-scroll">Scroll để xem</span>
 </div>
 </section>
 
-<section id="about">
-<div class="wrap">
-  <p class="sec-tag reveal">Hành trình</p>
-  <h2 class="section-h2 reveal" style="max-width:540px">Định hình cấu trúc<br><em>trước khi công nghệ nhảy vào.</em></h2>
+<!-- ══ RESEARCH ══ -->
+<section id="research">
+<div class="w">
+  <p class="s-tag r">Đang nghiên cứu</p>
 
-  <div class="about-grid">
-    <div class="about-left">
-      <p class="about-tagline reveal">
-        Không cạnh tranh với kỹ sư viết code hay tinh chỉnh mô hình AI. Tôi định vị mình là người xây "khung gầm" để AI vận hành có giá trị thực.
-      </p>
-      <div class="about-body reveal">
-        <p>Thị trường AI đang dịch chuyển từ cơn sốt công cụ (Hype) sang bài toán Tỷ suất hoàn vốn (ROI). Nhưng khoảng cách triển khai (Implementation Gap) vẫn rất lớn: AI dù thông minh đến đâu cũng bất lực trước đống dữ liệu bẩn và logic vận hành mập mờ của doanh nghiệp.</p>
-        <p>Nền tảng của tôi kết hợp tư duy hệ thống (Systems Thinking) với cấu trúc tri thức thực dụng. Tôi xây dựng Kinh Library để chứng minh một nguyên lý: Khi tri thức và logic quyết định được làm sạch và đóng gói chuẩn, hệ thống đó tự động đạt trạng thái Ready-for-AI.</p>
-        <p>Tôi tìm kiếm các Founder muốn gỡ bottleneck vận hành, và các AI Engineers/Startups cần một đối tác làm sạch "tiền tuyến" trước khi nhúng mô hình vào doanh nghiệp.</p>
-      </div>
-    </div>
-
-    <div class="about-right">
-      <div class="about-facts reveal">
-        <div class="about-fact">
-          <span class="about-fact-label">Nền tảng</span>
-          <span class="about-fact-val">Systems Thinking, Triết học cấu trúc, Đông Phương vận hành</span>
-        </div>
-        <div class="about-fact">
-          <span class="about-fact-label">Đang xây</span>
-          <span class="about-fact-val">Kinh Library — khung cấu trúc hóa tri thức đạt chuẩn Context cho AI</span>
-        </div>
-        <div class="about-fact">
-          <span class="about-fact-label">Tập trung</span>
-          <span class="about-fact-val">Giải quyết Implementation Gap (Khoảng cách triển khai thực tế của AI)</span>
-        </div>
-        <div class="about-fact">
-          <span class="about-fact-label">Mô hình</span>
-          <span class="about-fact-val">Thiết kế thượng tầng (Cột I & II), mở giao diện kết nối với các Chuyên gia AI (Cột III)</span>
-        </div>
-      </div>
-
-      <div class="about-honest reveal">
-        <strong>Thẳng thắn mà nói:</strong>
-        Tôi không bán các mô hình AI tự chế hay thuật toán nghìn đô. Tôi bán sự rõ ràng. Nếu tổ chức của bạn chưa có cấu trúc, việc ném thêm AI vào chỉ làm sự hỗn loạn diễn ra nhanh hơn với chi phí đắt hơn. Tôi ở đây để ngăn điều đó.
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-<section id="problem">
-<div class="wrap">
-  <p class="sec-tag reveal">Vấn đề</p>
-  <h2 class="section-h2 reveal" style="max-width:520px">AI không thiếu năng lực.<br>Nó thiếu Ngữ cảnh (Context).</h2>
-
-  <p class="problem-intro reveal">
-    Nhiều doanh nghiệp đổi hết công cụ AI này đến mô hình khác nhưng vẫn thất bại — vì họ đang cố gắng tự động hóa một hệ thống vốn đã rò rỉ.
-    <strong>Garbage in, Garbage out ở cấp độ tổ chức.</strong>
+  <p class="research-intro r">
+    Không phải lĩnh vực.<br>
+    <strong>Là những cấu trúc lặp lại giữa nhiều lĩnh vực.</strong>
   </p>
 
-  <div class="problem-list">
-
-    <div class="prob-item reveal">
-      <div class="prob-num">01</div>
-      <div>
-        <div class="prob-symptom">Tri thức sống rải rác trong "đầu người"</div>
-        <p class="prob-body">Khi một nhân sự nghỉ, tổ chức mất đi một phần năng lực. Đội ngũ AI vào cuộc không có tài liệu chuẩn để làm RAG hay Fine-tuning, dẫn đến hiện tượng AI "ảo tưởng" (hallucination).</p>
-      </div>
+  <div class="domains r">
+    <div class="domain">
+      <div class="domain-name">Knowledge</div>
+      <div class="domain-desc">Tri thức được hình thành, lưu trữ và thất thoát như thế nào.</div>
     </div>
-
-    <div class="prob-item reveal">
-      <div class="prob-num">02</div>
-      <div>
-        <div class="prob-symptom">Founder là bottleneck của mọi quyết định</div>
-        <p class="prob-body">Manager không dám làm vì tổ chức thiếu bộ tiêu chí phán đoán chung. Khi không có logic quyết định nhất quán, bạn không thể thiết lập các luồng tự động hóa (AI Agents) để thay thế con người.</p>
-      </div>
+    <div class="domain">
+      <div class="domain-name">Decision</div>
+      <div class="domain-desc">Con người và tổ chức ra quyết định bằng cách nào.</div>
     </div>
-
-    <div class="prob-item reveal">
-      <div class="prob-num">03</div>
-      <div>
-        <div class="prob-symptom">AI được triển khai nhưng chỉ để làm việc vặt</div>
-        <p class="prob-body">Tốn ngân sách mua API nhưng đội ngũ chỉ dùng để tóm tắt văn bản hoặc soạn email. AI không cắm rễ được vào quy trình lõi (Core Business) vì quy trình lõi chưa từng được cấu trúc hóa.</p>
-      </div>
+    <div class="domain">
+      <div class="domain-name">AI</div>
+      <div class="domain-desc">Điều gì xảy ra khi AI được đưa vào một hệ thống đã có sẵn.</div>
     </div>
-
-    <div class="prob-item reveal">
-      <div class="prob-num">04</div>
-      <div>
-        <div class="prob-symptom">Khoảng cách triển khai (Implementation Gap) quá lớn</div>
-        <p class="prob-body">Đội ngũ Tech giỏi code nhưng không hiểu Business sâu sắc; Founder hiểu Business nhưng không biết đóng gói dữ liệu đạt chuẩn Tech. Hệ thống kẹt ở giữa.</p>
-      </div>
+    <div class="domain">
+      <div class="domain-name">Systems</div>
+      <div class="domain-desc">Những cơ chế vô hình tạo ra hành vi và kết quả.</div>
     </div>
-
   </div>
+
+  <p class="research-note r">
+    Mục tiêu không phải là hiểu sâu một ngành.<br>
+    Mà là nhìn thấy nguyên lý chung giữa nhiều ngành.
+  </p>
 </div>
 </section>
 
-<section id="what">
-<div class="wrap">
-  <p class="sec-tag reveal">Tôi làm gì</p>
-  <h2 class="section-h2 reveal" style="max-width:560px">Chuẩn hóa hệ thống cốt lõi (I & II) để tạo bệ phóng Ready-for-AI cho các chuyên gia (III).</h2>
+<!-- ══ METHOD ══ -->
+<section id="method">
+<div class="w">
+  <p class="s-tag r">Cách tôi học</p>
 
-  <p class="what-intro reveal">
-    Tôi tập trung toàn lực vào Cột I và Cột II để đóng gói bộ não doanh nghiệp.<br>
-    Từ nền tảng sạch đó, tôi mở cổng kết nối chuyên sâu với các đối tác triển khai AI (Cột III).
+  <p class="method-lede r">
+    Tôi không bắt đầu bằng chuyên môn.<br>
+    Tôi bắt đầu bằng việc quan sát.
   </p>
 
-  <div class="services reveal">
-    <div class="svc-card">
-      <span class="svc-num">I</span>
-      <div class="svc-name">Knowledge System</div>
-      <span class="svc-when">Trọng tâm cốt lõi</span>
-      <ul class="svc-items">
-        <li>Lập bản đồ tri thức tổ chức</li>
-        <li>Thiết kế kiến trúc lưu trữ</li>
-        <li>Tạo đường dẫn tiếp cận theo ngữ cảnh</li>
-        <li>Xây dựng bộ nhớ số hóa (Ready-for-RAG)</li>
-      </ul>
+  <div class="pipeline r">
+    <div class="pipe-step">
+      <div class="pipe-label">I</div>
+      <div>
+        <div class="pipe-title">Reality — Quan sát trước</div>
+        <p class="pipe-body">Không vào với câu trả lời có sẵn. Nhìn vào cách một hệ thống thực sự vận hành — không phải cách người ta nghĩ nó vận hành. Hai thứ này thường rất khác nhau.</p>
+      </div>
     </div>
-    <div class="svc-card">
-      <span class="svc-num">II</span>
-      <div class="svc-name">Decision System</div>
-      <span class="svc-when">Trọng tâm chiến lược</span>
-      <ul class="svc-items">
-        <li>Thiết kế nguyên tắc ra quyết định</li>
-        <li>Phân cấp quyền hạn có cấu trúc</li>
-        <li>Xây dựng luồng thông tin phán đoán</li>
-        <li>Logic hóa quy trình (Ready-for-Agents)</li>
-      </ul>
+    <div class="pipe-step">
+      <div class="pipe-label">II</div>
+      <div>
+        <div class="pipe-title">Pattern — Quét rộng trước</div>
+        <p class="pipe-body">Tôi không đào sâu vào case đầu tiên. Tôi quét nhiều case ở nhiều bối cảnh khác nhau để xây bộ nhận diện. Khi cùng một pattern xuất hiện ở ngữ cảnh khác, bộ nhận diện đó kích hoạt.</p>
+      </div>
     </div>
-    <div class="svc-card">
-      <span class="svc-num">III</span>
-      <div class="svc-name">AI Enablement</div>
-      <span class="svc-when">Giao diện kết nối Pro</span>
-      <ul class="svc-items">
-        <li>Đánh giá mức độ sẵn sàng cho AI</li>
-        <li>Thiết kế tầng Context sạch cho mô hình</li>
-        <li>Chuẩn hóa dữ liệu thô bên dưới</li>
-        <li>Đồng thiết kế luồng lai Human-AI</li>
-      </ul>
+    <div class="pipe-step">
+      <div class="pipe-label">III</div>
+      <div>
+        <div class="pipe-title">Structure — Đào sâu khi pattern lặp lại</div>
+        <p class="pipe-body">Chỉ khi pattern đã xuất hiện ở nhiều nơi, tôi mới đào sâu để tìm cơ chế gốc. Điều này tránh overfitting vào một trường hợp cá biệt.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-label">IV</div>
+      <div>
+        <div class="pipe-title">System — Đúc kết thành nguyên lý</div>
+        <p class="pipe-body">Kết quả không phải là kiến thức về một ngành. Mà là nguyên lý độc lập với ngành — có thể áp dụng lại ở bối cảnh hoàn toàn khác.</p>
+      </div>
     </div>
   </div>
 
-  <div class="outcomes-strip reveal">
-    <div class="out-item"><span class="out-mark">→</span><span class="out-text">Dữ liệu nội bộ sạch và sẵn sàng để AI hấp thụ ngay lập tức</span></div>
-    <div class="out-item"><span class="out-mark">→</span><span class="out-text">Đội ngũ AI Tech vào việc là chạy, không kẹt ở khâu dọn rác ngữ cảnh</span></div>
-    <div class="out-item"><span class="out-mark">→</span><span class="out-text">Tri thức doanh nghiệp tích lũy thành tài sản số, không biến mất theo người nghỉ</span></div>
-    <div class="out-item"><span class="out-mark">→</span><span class="out-text">Tạo ra Strategic Lock-in (Khóa chặt năng lực hệ thống) khi scale quy mô</span></div>
+  <div class="method-principle r">
+    <em>Mục tiêu không phải là hiểu một ngành.<br>Mà là hiểu cấu trúc chung giữa nhiều ngành.</em>
+    Đầu ra của mỗi bước là đầu vào chuẩn hóa cho bước tiếp theo. Entropy bị triệt tiêu qua từng tầng lọc.
   </div>
 </div>
 </section>
 
-<section id="how">
-<div class="wrap">
-  <p class="sec-tag reveal">Cách làm việc</p>
-  <h2 class="section-h2 reveal" style="max-width:520px">Không ném tool vào đống hỗn loạn.<br>Tái cấu trúc từ gốc.</h2>
+<!-- ══ PATTERNS ══ -->
+<section id="patterns">
+<div class="w">
+  <p class="s-tag r">Pattern đang theo dõi</p>
 
-  <div class="how-contrast reveal">
-    <div class="how-col how-col-left">
-      <div class="how-col-label">Cách tiếp cận thông thường</div>
-      <div class="how-row"><span class="how-symptom">AI chạy không ra kết quả</span><span class="how-arrow">→</span><span class="how-fix">Đổi sang model khác đắt tiền hơn</span></div>
-      <div class="how-row"><span class="how-symptom">Tri thức thất thoát</span><span class="how-arrow">→</span><span class="how-fix">Ép nhân viên viết thêm báo cáo</span></div>
-      <div class="how-row"><span class="how-symptom">Founder quá tải duyệt việc</span><span class="how-arrow">→</span><span class="how-fix">Tuyển thêm manager về kẹt cùng</span></div>
-      <p class="how-col-note">Sửa triệu chứng ở ngọn. Lãng phí compute cost và tài lực.</p>
+  <p class="patterns-intro r">
+    Những pattern này xuất hiện ở nhiều tổ chức khác nhau.<br>
+    Tôi đang quan sát và ghi lại chúng.
+  </p>
+
+  <div class="pattern-list">
+
+    <div class="pattern-item r">
+      <div class="pattern-left">
+        <div class="pattern-name">Founder Bottleneck</div>
+        <div class="pattern-symptom-label">Triệu chứng quan sát</div>
+        <div class="pattern-symptom">Mọi quyết định đều quay về founder, kể cả việc nhỏ. Đội ngũ không dám tự ra quyết định.</div>
+        <div class="pattern-q-label">Câu hỏi đang truy</div>
+        <div class="pattern-q">Liệu vấn đề nằm ở năng lực con người hay ở cấu trúc ra quyết định?</div>
+      </div>
+      <div class="pattern-status">Đang theo dõi</div>
     </div>
 
-    <div class="how-divider-v"></div>
-
-    <div class="how-col how-col-right">
-      <div class="how-col-label">Cách tôi làm việc</div>
-      <div class="how-step">
-        <div class="how-step-label">Reality — Khảo sát thực tế</div>
-        <div class="how-step-text">Quan sát luồng đi thực sự của thông tin và các điểm nghẽn quyết định tại tiền tuyến vận hành.</div>
+    <div class="pattern-item r">
+      <div class="pattern-left">
+        <div class="pattern-name">Knowledge Loss</div>
+        <div class="pattern-symptom-label">Triệu chứng quan sát</div>
+        <div class="pattern-symptom">Một người nghỉ việc và tổ chức mất đi năng lực. Onboarding kéo dài. Câu hỏi lặp lại.</div>
+        <div class="pattern-q-label">Câu hỏi đang truy</div>
+        <div class="pattern-q">Điều gì khiến tri thức không trở thành tài sản chung của tổ chức?</div>
       </div>
-      <div class="how-step">
-        <div class="how-step-label">Structure — Thiết kế Khung tri thức</div>
-        <div class="how-step-text">Xây dựng kiến trúc lưu trữ và làm sạch ngữ cảnh (Context Layer), biến "dầu thô" thành cấu trúc có nghĩa.</div>
-      </div>
-      <div class="how-step">
-        <div class="how-step-label">Logic — Chuẩn hóa quy tắc</div>
-        <div class="how-step-text">Đóng gói bộ tiêu chí ra quyết định chung, tạo thuật toán vận hành bằng ngôn ngữ tự nhiên cho tổ chức.</div>
-      </div>
-      <div class="how-step">
-        <div class="how-step-label">Connect — Mở cổng tích hợp AI</div>
-        <div class="how-step-text">Bàn giao một hệ điều hành sạch sẽ cho đối tác/đội ngũ AI Tech để họ nhúng LLM/RAG/Agents vào chuẩn xác.</div>
-      </div>
-      <p class="how-col-note how-col-note-dark">Chuẩn hóa cấu trúc một lần. AI tự động tối ưu tỷ suất ROI.</p>
-    </div>
-  </div>
-</section>
-
-<section id="cases">
-<div class="wrap">
-  <p class="sec-tag reveal">Case Study</p>
-  <h2 class="section-h2 reveal" style="max-width:500px">Các Pattern hệ thống tại tiền tuyến thương trường.</h2>
-  <p class="reveal" style="font-size:0.65rem;color:var(--ink-soft);margin-bottom:4rem;max-width:460px;line-height:1.9;">Dưới lăng kính cấu trúc, phần lớn các lỗi vận hành và lỗi triển khai công nghệ đều tuân theo các mẫu lặp (patterns) rất rõ ràng.</p>
-
-  <div class="cases-list">
-
-    <div class="case-item reveal">
-      <div class="case-head">
-        <span class="case-num">Case 01</span>
-        <span class="case-tag">Decision System</span>
-      </div>
-      <div class="case-body">
-        <div class="case-col">
-          <div class="case-row">
-            <span class="case-row-label">Triệu chứng</span>
-            <span class="case-row-val">Founder duyệt mọi việc nhỏ. Đội ngũ thụ động. Muốn ứng dụng AI Agent thay thế bớt quy trình duyệt nhưng không lập trình nổi.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Chẩn đoán bề mặt</span>
-            <span class="case-row-val case-surface">Manager yếu năng lực hoặc chọn sai công cụ tự động hóa.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Cấu trúc gốc</span>
-            <span class="case-row-val">Tổ chức không có nguyên tắc ra quyết định chung (Shared Criteria). Con người còn không có chuẩn chung thì AI hoàn toàn không có logic để bám vào làm việc.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Can thiệp</span>
-            <span class="case-row-val">Thiết kế framework phán đoán, phân cấp quyền hạn có cấu trúc, tạo bản thiết kế logic nền cho cả Người và AI Agent.</span>
-          </div>
-        </div>
-        <div class="case-result">
-          <span class="case-result-num">Ready</span>
-          <span class="case-result-text">để thiết lập các luồng AI Agent tự vận hành khi logic quyết định được số hóa nhất quán.</span>
-        </div>
-      </div>
+      <div class="pattern-status">Đang theo dõi</div>
     </div>
 
-    <div class="case-item reveal">
-      <div class="case-head">
-        <span class="case-num">Case 02</span>
-        <span class="case-tag">Knowledge System</span>
+    <div class="pattern-item r">
+      <div class="pattern-left">
+        <div class="pattern-name">AI Adoption</div>
+        <div class="pattern-symptom-label">Triệu chứng quan sát</div>
+        <div class="pattern-symptom">Có AI, có budget, nhưng hiệu quả thấp. Đội ngũ chỉ dùng cho việc vặt.</div>
+        <div class="pattern-q-label">Câu hỏi đang truy</div>
+        <div class="pattern-q">AI thiếu năng lực — hay hệ thống phía dưới thiếu context để AI hoạt động?</div>
       </div>
-      <div class="case-body">
-        <div class="case-col">
-          <div class="case-row">
-            <span class="case-row-label">Triệu chứng</span>
-            <span class="case-row-val">Nhân sự mới onboarding quá chậm. Đội kỹ thuật xây hệ thống RAG (AI truy vấn nội bộ) liên tục bị lỗi trả ra thông tin sai lệch, lỗi thời.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Chẩn đoán bề mặt</span>
-            <span class="case-row-val case-surface">Thiếu tài liệu hướng dẫn hoặc thuật toán tìm kiếm RAG của AI chưa tối ưu.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Cấu trúc gốc</span>
-            <span class="case-row-val">Tri thức nằm rải rác và "bẩn" (unstructured). Không có kiến trúc lưu trữ theo ngữ cảnh. Đưa dữ liệu rác vào thì AI chỉ khuếch đại sự sai lệch nhanh hơn.</span>
-          </div>
-          <div class="case-row">
-            <span class="case-row-label">Can thiệp</span>
-            <span class="case-row-val">Lập bản đồ tri thức tổ chức, thiết kế cơ sở hạ tầng thông tin sạch, đóng gói sẵn cấu trúc "thức ăn" chuẩn cho AI hấp thụ.</span>
-          </div>
-        </div>
-        <div class="case-result">
-          <span class="case-result-num">Clean</span>
-          <span class="case-result-text">Context Layer — Giúp hiệu suất truy vấn của các hệ thống AI tăng vọt mà không cần đổi model.</span>
-        </div>
-      </div>
+      <div class="pattern-status">Đang theo dõi</div>
     </div>
 
   </div>
 </div>
 </section>
 
-<section id="belief">
-<div class="wrap">
-  <p class="sec-tag reveal">Niềm tin cốt lõi</p>
-  <h2 class="section-h2 reveal">Thông tin không tự tạo ra<br>sự thông minh.</h2>
-  <p class="belief-intro reveal">Sự hiểu biết xuất hiện khi thông tin được tổ chức thành cấu trúc có ý nghĩa. AI không thay thế tư duy — nó khuếch đại cấu trúc đang có.</p>
+<!-- ══ BUILDING ══ -->
+<section id="building">
+<div class="w">
+  <p class="s-tag r">Đang xây dựng</p>
 
-  <div class="belief-grid reveal">
-    <div class="belief-item">
-      <div class="belief-mark">Nguyên tắc 01</div>
-      <div class="belief-quote">Vấn đề của tổ chức thường không bắt nguồn từ con người hay công cụ — chúng bắt nguồn từ cấu trúc.</div>
-      <p class="belief-note">Khi cùng một lỗi lặp lại dù đã thay người hoặc đổi phần mềm, đó là dấu hiệu cấu trúc đang lỗi — không phải cá nhân hay tool.</p>
+  <p class="building-lede r">
+    Một thư viện tri thức cá nhân.<br>
+    Một pipeline xử lý thông tin.<br>
+    <strong>Một cách làm việc giúp biến thông tin thành tài sản tri thức.</strong>
+  </p>
+
+  <div class="stack r">
+    <div class="stack-item">
+      <span class="stack-arrow">→</span>
+      <span class="stack-label"><strong>Thông tin thô</strong> — case study, quan sát, ghi chép từ thực tế</span>
     </div>
-    <div class="belief-item">
-      <div class="belief-mark">Nguyên tắc 02</div>
-      <div class="belief-quote">Tri thức không được cấu trúc là một rủi ro ẩn, không phải tài sản.</div>
-      <p class="belief-note">Tri thức nằm trong đầu cá nhân sẽ biến mất bất cứ lúc nào. Tri thức được cấu trúc hóa trở thành tài sản số, tạo nên Customer Lock-in vững chắc.</p>
+    <div class="stack-item">
+      <span class="stack-arrow">↓</span>
+      <span class="stack-label"><strong>Pattern</strong> — những gì lặp lại được nhận diện và gắn thẻ</span>
     </div>
-    <div class="belief-item">
-      <div class="belief-mark">Nguyên tắc 03</div>
-      <div class="belief-quote">Nếu cấu trúc tốt, AI tạo ra đòn bẩy. Nếu cấu trúc kém, AI tạo ra thảm họa vận hành.</div>
-      <p class="belief-note">Mô hình AI dù tốt đến đâu nếu nằm trong một hạ tầng dữ liệu hỗn độn thì giá trị bằng không. Muốn AI tạo dòng tiền, hãy làm sạch cái nền của nó trước.</p>
+    <div class="stack-item">
+      <span class="stack-arrow">↓</span>
+      <span class="stack-label"><strong>Nguyên lý</strong> — cơ chế gốc được trích xuất sau khi pattern xuất hiện ở nhiều ngữ cảnh</span>
     </div>
-    <div class="belief-item">
-      <div class="belief-mark">Nguyên tắc 04</div>
-      <div class="belief-quote">Mục tiêu không phải là nhiều công nghệ hơn — mà là sự rõ ràng tốt hơn.</div>
-      <p class="belief-note">Doanh nghiệp không thiếu dữ liệu hay thiếu tool AI. Họ thiếu một kiến trúc sư kết nối dữ liệu thành hiểu biết và hiểu biết thành quyết định chiến lược.</p>
+    <div class="stack-item">
+      <span class="stack-arrow">↓</span>
+      <span class="stack-label"><strong>Tài sản tri thức</strong> — lưu trữ, cấu trúc hóa, có thể tái sử dụng</span>
     </div>
   </div>
+
+  <p class="building-note r">
+    Mỗi ghi chú, mỗi case study và mỗi cuộc trò chuyện đều là một phần của quá trình đó.<br><br>
+    Đây là hljourney. Hướng tới là hlkarchitect — người thiết kế hệ thống vận hành phía sau. Khoảng cách đó đang được rút ngắn từng ngày.
+  </p>
 </div>
 </section>
 
-<section id="cal">
-<div class="wrap">
-  <p class="sec-tag reveal">Bắt đầu</p>
-  <h2 class="section-h2 reveal" style="margin-bottom:1rem">Kết nối chiến lược<br>để định hình cuộc chơi.</h2>
-  <p class="cal-note reveal">Dù bạn là một Founder đang scale hệ thống hay một Đội ngũ triển khai AI (Startups, FDEs, Tech Leads) đang tìm giải pháp chuẩn hóa lớp Context Layer cho khách hàng — hãy ngồi lại trò chuyện.</p>
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+<div class="w">
+  <p class="s-tag r">Nói chuyện</p>
 
-  <div id="the-form">
+  <h2 class="contact-h2 r">Nếu bạn thấy<br><em style="font-weight:300;color:var(--mid)">thú vị.</em></h2>
 
-    <div class="q-block reveal">
-      <div class="q-num">Q — 01</div>
-      <p class="q-text">Vị thế hiện tại của bạn?</p>
-      <div class="opts" id="g1">
-        <button class="opt" onclick="pick(this,'g1')">Founder / C-Suite đang scale</button>
-        <button class="opt" onclick="pick(this,'g1')">AI Engineer / Tech Lead / Agency AI</button>
-        <button class="opt" onclick="pick(this,'g1')">Forward-Deployed Engineer độc lập</button>
-        <button class="opt" onclick="pick(this,'g1')">SME đang tái cấu trúc vận hành</button>
-      </div>
-    </div>
+  <p class="contact-sub r">
+    Tôi thích nói chuyện với người tò mò về hệ thống.<br>
+    Không phải để bán thứ gì. Chỉ để cùng nhìn vào cấu trúc đang vận hành phía dưới những gì chúng ta thấy mỗi ngày.
+  </p>
 
-    <div class="q-block reveal">
-      <div class="q-num">Q — 02</div>
-      <p class="q-text">Điểm ma sát lớn nhất bạn đang muốn giải quyết?</p>
-      <div class="opts" id="g2">
-        <button class="opt" onclick="pick(this,'g2')">Dữ liệu doanh nghiệp quá bẩn, AI không có context</button>
-        <button class="opt" onclick="pick(this,'g2')">Founder kẹt ra quyết định, không thể scale-out</button>
-        <button class="opt" onclick="pick(this,'g2')">Cần một Architect dọn đường cấu trúc trước khi code AI</button>
-        <button class="opt" onclick="pick(this,'g2')">Tri thức phân tán, thất thoát năng lực liên tục</button>
-      </div>
-    </div>
-
-    <div class="q-block reveal">
-      <div class="q-num">Q — 03</div>
-      <p class="q-text">Bạn kỳ vọng gì từ cuộc trao đổi này?</p>
-      <div class="opts" id="g3">
-        <button class="opt" onclick="pick(this,'g3')">Hợp tác chiến lược (Cùng làm dự án AI)</button>
-        <button class="opt" onclick="pick(this,'g3')">Thiết kế hệ thống cấu trúc cụ thể cho tổ chức</button>
-        <button class="opt" onclick="pick(this,'g3')">Phản biện mẫu lặp (Pattern) hệ thống đang kẹt</button>
-      </div>
-    </div>
-
-    <div class="q-block reveal">
-      <div class="q-num">Q — 04</div>
-      <p class="q-text">Mức độ sẵn sàng triển khai?</p>
-      <div class="opts" id="g4">
-        <button class="opt" onclick="pick(this,'g4')">Có dự án/nỗi đau thực tế cần xử lý ngay</button>
-        <button class="opt" onclick="pick(this,'g4')">Đang lên kế hoạch cho giai đoạn dịch chuyển tới</button>
-        <button class="opt" onclick="pick(this,'g4')">Trao đổi tư duy, tìm kiếm tiếng nói chung</button>
-      </div>
-    </div>
-
-    <div class="input-row reveal">
-      <input type="text" id="f-name" placeholder="Tên / Handle">
-      <input type="text" id="f-contact" placeholder="Email hoặc Telegram">
-    </div>
-    <textarea id="f-note" rows="2" placeholder="Mô tả ngắn về bài toán hệ thống hoặc hướng muốn hợp tác (không bắt buộc)..."></textarea>
-
-    <button class="btn-submit reveal" onclick="submitForm()">
-      Gửi & Đặt lịch trao đổi &nbsp;→
-    </button>
-    <p class="form-note reveal">Phản hồi trong 24–48 giờ · Nhìn thẳng vấn đề · Không pitch lý thuyết</p>
+  <div class="who-list r">
+    <span class="who-tag">Founder</span>
+    <span class="who-tag">Builder</span>
+    <span class="who-tag">Operator</span>
+    <span class="who-tag">Người tò mò về hệ thống</span>
   </div>
 
-  <div id="success">
-    <h3>Đã nhận.</h3>
-    <p>Tôi sẽ xem xét kỹ góc nhìn của bạn và phản hồi trong vòng 24–48 giờ.<br>Nếu cùng tần số — hệ thống sẽ kích hoạt cuộc hẹn.</p>
+  <div class="contact-links r">
+    <a href="https://t.me/hljourney" class="contact-link" target="_blank">
+      <span class="contact-link-name">Telegram</span>
+      <span class="contact-link-handle">@hljourney</span>
+      <span class="contact-link-arr">→</span>
+    </a>
+    <a href="mailto:hl@hljourney.com" class="contact-link">
+      <span class="contact-link-name">Email</span>
+      <span class="contact-link-handle">hl@hljourney.com</span>
+      <span class="contact-link-arr">→</span>
+    </a>
+  </div>
+
+  <div class="vision-cta r">
+    <div class="vision-cta-label">Tầm nhìn & Framework</div>
+    <a href="https://huynhle29951.github.io/hlkarchitect/" class="vision-cta-link" target="_blank">
+      Xem hlkarchitect — bản đồ hướng tới
+    </a>
   </div>
 </div>
 </section>
 
 <footer>
-<div class="wrap">
-  <div class="footer-inner">
-    <span>HL · Knowledge & Decision · 2026</span>
-    <span class="footer-center">Tri thức · Quyết định · Hệ thống</span>
-    <span>Đang xây dựng · Đang học hỏi · Đang thực chiến</span>
-  </div>
-</div>
+  <span class="f-left">HL · hljourney · 2026</span>
+  <span class="f-right">Quan sát · Pattern · Cấu trúc · Hệ thống</span>
 </footer>
 
 <script>
+// scroll bar
 window.addEventListener('scroll', () => {
   const h = document.documentElement;
   document.getElementById('bar').style.width =
     (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-});
+}, { passive: true });
 
+// reveal
 const obs = new IntersectionObserver(entries => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('in'), i * 70);
+      setTimeout(() => e.target.classList.add('in'), i * 60);
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-function pick(el, group) {
-  document.querySelectorAll('#' + group + ' .opt').forEach(o => o.classList.remove('on'));
-  el.classList.add('on');
-}
-
-function submitForm() {
-  const contact = document.getElementById('f-contact').value.trim();
-  if (!contact) { document.getElementById('f-contact').focus(); return; }
-  document.getElementById('the-form').style.display = 'none';
-  document.getElementById('success').style.display = 'block';
-}
+}, { threshold: 0.06 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
